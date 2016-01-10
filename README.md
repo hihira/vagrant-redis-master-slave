@@ -1,13 +1,7 @@
-vagrant-redis
-=============
+vagrant-redis-master-slave
+==========================
 
-Simple vagrant script for creating a development environment for redis development.
-
-Checks out the source code to /vagrant.
-
-Uses the ubuntu/trusty64 box (which you may already have)
-
-Watch it in [action](https://www.youtube.com/watch?v=1pkikXchQfo) on YouTube 
+元のレポジトリ mdevilliers/vagrant-redis
 
 To use
 ------
@@ -22,4 +16,4 @@ vagrant up --no-provision
 Thanks
 ------
 
-Thanks to JasonPunyon, Jeese at JREAM 
+Thanks mdevilliers.

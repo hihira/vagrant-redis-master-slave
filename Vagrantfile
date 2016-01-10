@@ -22,11 +22,27 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "ubuntu/trusty64"
-  config.vm.network :forwarded_port, guest: 6379, host: 6379
 
   config.vm.provider :virtualbox do |vbox|
     vbox.customize ["modifyvm", :id, "--memory", 1024]
   end
 
-  config.vm.provision :shell, :path => "init.sh"
+  # master => 192.168.50.10
+  # slave1 => 192.168.50.11
+  # slave2 => 192.168.50.12
+  (10..12).each do |i|
+    config.vm.define "redis-#{i}" do |redis|
+      redis.vm.network :forwarded_port, guest: 6379, host: 6379 + (i - 10)
+      redis.vm.network "private_network", ip: "192.168.50.#{i}"
+
+      redis.vm.provision "shell" do |s|
+        s.path = "init.sh"
+        if i == 10 then
+          s.args = ["master", ""]
+        else
+          s.args = ["slaveof", "192.168.50.10"]
+        end
+      end
+    end
+  end
 end

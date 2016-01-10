@@ -28,3 +28,11 @@ update-rc.d redis_6379 defaults
 
 chmod a+x /etc/init.d/redis_6379
 /etc/init.d/redis_6379 start
+
+if [ $1 = "slaveof" ]; then
+  sleep 5
+  redis-cli slaveof $2 6379
+fi
+
+cp -u /vagrant/redis-sentinel.conf /etc/redis/sentinel.conf
+redis-sentinel /etc/redis/sentinel.conf
